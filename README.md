@@ -2,7 +2,7 @@
 
 Eri - **Extendable record interface**
 
-Elegant file format that enhances the traditional CSV structure by introducing static typed values, comments, nested properties, arrays and even custom types.
+Elegant file format that enhances the traditional CSV structure by introducing static typed values, comments, nested properties, arrays and custom type definitions for the parser.
 
 ## Features
 
@@ -28,7 +28,24 @@ Eri supports basic arrays, like number or string arrays. **Arrays can only conta
 
 ### Nested Properties
 
-With Eri, you can represent nested properties using a dot (`.`) in the header. This feature enables you to organize data structures more complex than just Records. Use nested properties to create rich, structured representations of your information.
+With Eri, you can represent nested properties using a dot (`.`) in the header. For example if you want to create this object in eri:
+```ts
+social_links: {
+  youtube: string,
+  instagram: string,
+  linkedin: string
+}
+```
+you'd write something like this in the header:
+```
+social_links.youtube:string,
+social_links.instagram:string
+social_links.linkedin:string
+```
+
+### Custom types / Preprocessors
+
+Eri parser introduces *custom types*. Providing a function to the parser you can preprocess data in a way that matches your project perfectly. You could make for example a :date type which would transform timestamps into locale formatted date.
 
 ## Example
 
@@ -42,8 +59,7 @@ Bob Johnson,22,[78.9, 80.2, 85.0],true,Seattle,98101
 ...
 ```
 
-equals to:
-
+Json output:
 ```json
 [
   {
@@ -74,10 +90,10 @@ is_active:bool
 John Doe,25,["Math", "Physics", "Chemistry"],true
 Jane Smith,30,["English", "History", "Art"],false
 Bob Johnson,22,["Computer Science", "Statistics"],true
+...
 ```
 
-equals to:
-
+Json output:
 ```json
 [
   {
